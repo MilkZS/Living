@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.milkdz.living.R;
 import com.milkdz.living.bean.MethodBean;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,11 +22,12 @@ import java.util.ArrayList;
 public class HomeMethodRecycleAdapter extends RecyclerView.Adapter<HomeMethodRecycleAdapter.MyViewHolder> {
 
     private ArrayList<MethodBean> beanArrayList;
+    private Context context;
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Context context = viewGroup.getContext();
+        context = viewGroup.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.rv_home_method, viewGroup, false);
         return new MyViewHolder(v);
@@ -31,7 +35,9 @@ public class HomeMethodRecycleAdapter extends RecyclerView.Adapter<HomeMethodRec
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-
+        MethodBean bean = beanArrayList.get(i);
+        Picasso.with(context).load(bean.getUrl()).fit().into(myViewHolder.iv);
+        myViewHolder.tvName.setText(bean.getName());
     }
 
     @Override
@@ -42,8 +48,13 @@ public class HomeMethodRecycleAdapter extends RecyclerView.Adapter<HomeMethodRec
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public MyViewHolder(@NonNull View itemView) {
+        TextView tvName;
+        ImageView iv;
+
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvName = itemView.findViewById(R.id.tv_rv_home_method);
+            iv = itemView.findViewById(R.id.iv_rv_home_method);
         }
     }
 
